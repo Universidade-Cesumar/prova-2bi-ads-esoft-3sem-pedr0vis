@@ -45,3 +45,32 @@ const buscarCadastros = () => {
     .catch(erro => console.error('Erro ao buscar:', erro));
 };
 
+// Envia para a API usando o POST
+const cadastrarApi = () => {
+    const nome = document.getElementById('input-nome').value;
+    const quantidade = document.getElementById('input-quantidade').value;
+
+    if (!nome || !quantidade) {
+        alert('Preencha todos os campos antes de cadastrar.');
+        return;
+    }
+    const novoCadastro = {
+        nomeMaterial: nome,
+        quantidade: Number(quantidade)
+    };
+
+    // Envia o POST para o MockAPI
+    fetch(API_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(novoCadastro)
+    })
+    .then(res => res.json())
+    .then(cadastroCriado => {
+        console.log('Cadastrado com sucesso:', cadastroCriado);
+        limparFormulario();
+        buscarCadastros();
+    })
+    .catch(erro => console.error('Erro ao cadastrar:', erro));
+};
+

@@ -74,3 +74,14 @@ const cadastrarApi = () => {
     .catch(erro => console.error('Erro ao cadastrar:', erro));
 };
 
+// Remover cadastro de item
+const deletarCadastro = (id) => {
+    fetch(`${API_URL}/${id}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(() => {
+        buscarCadastros();
+    })
+    .catch(erro => console.error('Erro ao deletar:', erro));
+};

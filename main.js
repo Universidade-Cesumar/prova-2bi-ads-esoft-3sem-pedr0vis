@@ -31,3 +31,17 @@ const preencherTabela = (listaDeCadastros) => {
         `).join('')}
     `;
 };
+
+// Busca cadastros e chama o preencher tabela
+const buscarCadastros = () => {
+    fetch(API_URL, {
+        method: 'GET',
+        headers: { 'content-type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(dados => {
+        preencherTabela(dados);
+    })
+    .catch(erro => console.error('Erro ao buscar:', erro));
+};
+

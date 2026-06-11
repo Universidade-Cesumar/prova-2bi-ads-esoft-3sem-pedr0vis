@@ -8,42 +8,46 @@
 </head>
 <body>
     
-    <form class="formulario">
+    <main>
 
-        <h1>Sistema para gerenciar o armazenamento de objetos hospitalares</h1>
+        <form class="formulario">
+    
+            <h1>Sistema para gerenciar o armazenamento de objetos hospitalares</h1>
+    
+            <div>
+                <label class="labelFormulario">Nome do objeto:</label>
+                <input type="text" id="input-nome">
+            </div>
+    
+            <div>
+                <label class="labelFormulario">Quantidade do objeto:</label>
+                <input type="number" id="input-quantidade">
+            </div>
+    
+            <div>
+                <label class="labelFormulario">Categoria:</label>
+                <select class="categoria" id="select-categoria">
+                    <option value="1">Material de consumo</option>
+                    <option value="2">Material permanente</option>
+                </select>
+            </div>
+    
+            <div>
+                <label class="labelFormulario">Data de cadastro:</label>
+                <input type="date" id="input-data-cadastro">
+            </div>
+    
+            <button id="btn-cadastrar">Cadastrar</button>
+    
+        </form>
+    
+        <section class="tabela">
+            <table id="lista-materiais">
+    
+            </table>
+        </section>
 
-        <div>
-            <label class="labelFormulario">Nome do objeto:</label>
-            <input type="text" id="input-nome">
-        </div>
-
-        <div>
-            <label class="labelFormulario">Quantidade do objeto:</label>
-            <input type="number" id="input-quantidade">
-        </div>
-
-        <div>
-            <label class="labelFormulario">Categoria:</label>
-            <select class="categoria" id="select-categoria">
-                <option value="1">Material de consumo</option>
-                <option value="2">Material permanente</option>
-            </select>
-        </div>
-
-        <div>
-            <label class="labelFormulario">Data de cadastro:</label>
-            <input type="date" id="input-data-cadastro">
-        </div>
-
-        <button id="btn-cadastrar">Cadastrar</button>
-
-    </form>
-
-    <section class="tabela">
-        <table id="lista-materiais">
-
-        </table>
-    </section>
+    </main>
 
 </body>
 

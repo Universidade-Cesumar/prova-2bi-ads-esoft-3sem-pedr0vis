@@ -1,1 +1,48 @@
-/* Caso queira utilizar framework como Bootstrap para estilização, pode utilizar. Basta ignoar esse arquivo */
+/* Caso queira utilizar framework como Bootstrap para estilização, pode utilizar. Basta ignorar esse arquivo */
+
+body {
+
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f7fa;
+
+}
+
+main {
+
+    margin: auto;
+    width: 70%;
+    height: 100vh;
+
+}
+
+.formulario {
+
+    background-color: #ffffff;
+    color: #1c2b3a;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.formulario div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.formulario h1 {
+
+    font-size: 1.2rem;
+    font-weight: 700;
+
+}
+
+.btnCadastrar {
+
+    width: 30%;
+
+}

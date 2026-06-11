@@ -5,6 +5,8 @@ const API_URL = 'https://6a29decff59cb8f65f1dae28.mockapi.io/cadastro';
 const limparFormulario = () => {
     document.getElementById('input-nome').value = '';
     document.getElementById('input-quantidade').value = '';
+    document.getElementById('select-categoria').value = '1';
+    document.getElementById('input-data-cadastro').value = '';
 };
 
 // Mostra a tabela e recebe um array com objetos da api

@@ -24,6 +24,7 @@ main {
     color: #1c2b3a;
     display: flex;
     flex-direction: column;
+    padding: 1.5rem;
 
 }
 
@@ -38,6 +39,18 @@ main {
 
     font-size: 1.2rem;
     font-weight: 700;
+
+}
+
+.inputFormulario {
+
+    width: 30%;
+
+}
+
+.selectFormulario {
+
+    width: 30%;
 
 }
 

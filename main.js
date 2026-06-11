@@ -85,3 +85,8 @@ const deletarCadastro = (id) => {
     })
     .catch(erro => console.error('Erro ao deletar:', erro));
 };
+
+// Chama o botão cadastrar e deixa os dados em exibição
+document.getElementById('btn-cadastrar').addEventListener('click', cadastrarApi);
+
+buscarCadastros();

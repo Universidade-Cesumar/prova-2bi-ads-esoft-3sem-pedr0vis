@@ -51,20 +51,30 @@ const buscarCadastros = () => {
 };
 
 // Envia para a API usando o POST
-const cadastrarApi = () => {
+const cadastrarApi = (event) => {
+    event.preventDefault();
+
     const nome = document.getElementById('input-nome').value;
     const quantidade = document.getElementById('input-quantidade').value;
+    const categoria = document.getElementById('select-categoria').value;
+    const dataCadastro = document.getElementById('input-data-cadastro').value;
 
-    if (!nome || !quantidade) {
+    if (!nome || !quantidade || !dataCadastro) {
         alert('Preencha todos os campos antes de cadastrar.');
         return;
     }
+
+    const botao = document.getElementById('btn-cadastrar');
+    botao.disabled = true;
+    botao.textContent = 'Cadastrando...';
+
     const novoCadastro = {
         nomeMaterial: nome,
-        quantidade: Number(quantidade)
+        quantidade: Number(quantidade),
+        categoria: categoria, // '1' = consumo, '2' = permanente
+        dataCadastro: dataCadastro
     };
 
-    // Envia o POST para o MockAPI
     fetch(API_URL, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -76,7 +86,12 @@ const cadastrarApi = () => {
         limparFormulario();
         buscarCadastros();
     })
-    .catch(erro => console.error('Erro ao cadastrar:', erro));
+    .catch(erro => console.error('Erro ao cadastrar:', erro))
+    .finally(() => {
+        botao.disabled = false;
+        botao.textContent = 'Cadastrar';
+    });
+
 };
 
 // Remover cadastro de item

@@ -107,6 +107,6 @@ const deletarCadastro = (id) => {
 };
 
 // Chama o botão cadastrar e deixa os dados em exibição
-document.getElementById('btn-cadastrar').addEventListener('click', cadastrarApi);
+document.getElementById('btn-cadastrar').addEventListener('click', (event) => cadastrarApi(event));
 
 buscarCadastros();

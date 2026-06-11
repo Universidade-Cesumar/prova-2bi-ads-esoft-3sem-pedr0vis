@@ -13,12 +13,13 @@ const limparFormulario = () => {
 const preencherTabela = (listaDeCadastros) => {
     const tabela = document.getElementById('lista-materiais');
 
-    // Monta o cabeçalho e as linhas em HTML
     tabela.innerHTML = `
         <tr>
             <th>ID</th>
             <th>Nome do Material</th>
             <th>Quantidade</th>
+            <th>Categoria</th>
+            <th>Data de Cadastro</th>
             <th>Acoes</th>
         </tr>
         ${listaDeCadastros.map(item => `
@@ -26,6 +27,8 @@ const preencherTabela = (listaDeCadastros) => {
                 <td>${item.id}</td>
                 <td>${item.nomeMaterial}</td>
                 <td>${item.quantidade}</td>
+                <td>${item.categoria === '1' ? 'Material de consumo' : 'Material permanente'}</td>
+                <td>${item.dataCadastro}</td>
                 <td>
                     <button onclick="deletarCadastro('${item.id}')">Remover</button>
                 </td>

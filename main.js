@@ -125,6 +125,7 @@ const deletarCadastro = (id) => {
         .catch(erro => console.error('Erro ao deletar:', erro));
 };
 
+// Validações de retirada de itens do estoque
 const validarRetirada = (estoqueAtual, quantidadeRetirada) => {
     const estoque = Number(estoqueAtual);
     const retirada = Number(quantidadeRetirada);
@@ -228,5 +229,6 @@ const confirmarBaixa = (event) => {
 
 // Chama o botão cadastrar e deixa os dados em exibição
 document.getElementById('btn-cadastrar').addEventListener('click', (event) => cadastrarApi(event));
-
+document.getElementById('btn-confirmar-baixa').addEventListener('click', (event) => confirmarBaixa(event));
+ 
 buscarCadastros();

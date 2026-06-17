@@ -37,6 +37,20 @@ const preencherTabela = (listaDeCadastros) => {
     `;
 };
 
+// Preencher select da seção de retirada com materiais já cadastrados
+const preencherSelectRetirada = (listaDeCadastros) => {
+    const select = document.getElementById('select-item-retirada');
+ 
+    if (listaDeCadastros.length === 0) {
+        select.innerHTML = '<option value="">Nenhum material cadastrado</option>';
+        return;
+    }
+ 
+    select.innerHTML = listaDeCadastros.map(item => `
+        <option value="${item.id}">${item.nomeMaterial} (estoque: ${item.quantidade})</option>
+    `).join('');
+};
+
 // Busca cadastros e chama o preencher tabela
 const buscarCadastros = () => {
     fetch(API_URL, {

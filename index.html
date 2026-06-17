@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang='pt-br'>
+
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Almoxarifado hospitalar</title>
     <link rel='stylesheet' href='style.css'>
 </head>
+
 <body>
-    
+
     <main>
 
         <form class="formulario">
-    
+
             <h1>Sistema para gerenciar o armazenamento de objetos hospitalares</h1>
-    
+
             <div>
                 <label class="labelFormulario">Nome do objeto:</label>
                 <input class="inputFormulario" type="text" id="input-nome">
             </div>
-    
+
             <div>
                 <label class="labelFormulario">Quantidade do objeto:</label>
                 <input class="inputFormulario" type="number" id="input-quantidade">
             </div>
-    
+
             <div>
                 <label class="labelFormulario">Categoria:</label>
                 <select class="selectFormulario" id="select-categoria">
@@ -31,19 +33,45 @@
                     <option value="2">Material permanente</option>
                 </select>
             </div>
-    
+
             <div>
                 <label class="labelFormulario">Data de cadastro:</label>
                 <input class="inputFormulario" type="date" id="input-data-cadastro">
             </div>
-    
+
             <button class="btnCadastrar" id="btn-cadastrar">Cadastrar</button>
-    
+
         </form>
-    
+
+        <section class="retirada">
+
+            <h2>Retirada de materiais</h2>
+
+            <div>
+                <label class="labelFormulario">Item a retirar:</label>
+                <select class="categoria" id="select-item-retirada">
+                </select>
+            </div>
+
+            <div>
+                <label class="labelFormulario">Quantidade a retirar:</label>
+                <input type="number" id="input-retirada" min="1">
+            </div>
+
+            <div>
+                <label class="labelFormulario">Responsavel pela retirada:</label>
+                <input type="text" id="input-responsavel-retirada">
+            </div>
+
+            <button class="btn-baixar" id="btn-confirmar-baixa">Confirmar retirada</button>
+
+            <p class="mensagem-retirada" id="mensagem-retirada"></p>
+
+        </section>
+
         <section class="tabela">
             <table id="lista-materiais">
-    
+
             </table>
         </section>
 

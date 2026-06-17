@@ -20,7 +20,7 @@ const preencherTabela = (listaDeCadastros) => {
             <th>Quantidade</th>
             <th>Categoria</th>
             <th>Data de Cadastro</th>
-            <th>Acoes</th>
+            <th>Ações</th>
         </tr>
         ${listaDeCadastros.map(item => `
             <tr>
@@ -30,7 +30,7 @@ const preencherTabela = (listaDeCadastros) => {
                 <td>${item.categoria === '1' ? 'Material de consumo' : 'Material permanente'}</td>
                 <td>${item.dataCadastro}</td>
                 <td>
-                    <button onclick="deletarCadastro('${item.id}')">Remover</button>
+                    <button class="btn-excluir" onclick="deletarCadastro('${item.id}')">Excluir</button>
                 </td>
             </tr>
         `).join('')}

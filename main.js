@@ -43,12 +43,12 @@ const preencherTabela = (listaDeCadastros) => {
 // Preencher select da seção de retirada com materiais já cadastrados
 const preencherSelectRetirada = (listaDeCadastros) => {
     const select = document.getElementById('select-item-retirada');
- 
+
     if (listaDeCadastros.length === 0) {
         select.innerHTML = '<option value="">Nenhum material cadastrado</option>';
         return;
     }
- 
+
     select.innerHTML = listaDeCadastros.map(item => `
         <option value="${item.id}">${item.nomeMaterial} (estoque: ${item.quantidade})</option>
     `).join('');
@@ -60,13 +60,13 @@ const buscarCadastros = () => {
         method: 'GET',
         headers: { 'content-type': 'application/json' }
     })
-    .then(res => res.json())
-    .then(dados => {
-        listaMateriaisCache = dados;
-        preencherTabela(dados);
-        preencherSelectRetirada(dados);
-    })
-    .catch(erro => console.error('Erro ao buscar:', erro));
+        .then(res => res.json())
+        .then(dados => {
+            listaMateriaisCache = dados;
+            preencherTabela(dados);
+            preencherSelectRetirada(dados);
+        })
+        .catch(erro => console.error('Erro ao buscar:', erro));
 };
 
 // Envia para a API usando o POST
@@ -99,17 +99,17 @@ const cadastrarApi = (event) => {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(novoCadastro)
     })
-    .then(res => res.json())
-    .then(cadastroCriado => {
-        console.log('Cadastrado com sucesso:', cadastroCriado);
-        limparFormulario();
-        buscarCadastros();
-    })
-    .catch(erro => console.error('Erro ao cadastrar:', erro))
-    .finally(() => {
-        botao.disabled = false;
-        botao.textContent = 'Cadastrar';
-    });
+        .then(res => res.json())
+        .then(cadastroCriado => {
+            console.log('Cadastrado com sucesso:', cadastroCriado);
+            limparFormulario();
+            buscarCadastros();
+        })
+        .catch(erro => console.error('Erro ao cadastrar:', erro))
+        .finally(() => {
+            botao.disabled = false;
+            botao.textContent = 'Cadastrar';
+        });
 
 };
 
@@ -118,34 +118,112 @@ const deletarCadastro = (id) => {
     fetch(`${API_URL}/${id}`, {
         method: 'DELETE'
     })
-    .then(res => res.json())
-    .then(() => {
-        buscarCadastros();
-    })
-    .catch(erro => console.error('Erro ao deletar:', erro));
+        .then(res => res.json())
+        .then(() => {
+            buscarCadastros();
+        })
+        .catch(erro => console.error('Erro ao deletar:', erro));
 };
 
 const validarRetirada = (estoqueAtual, quantidadeRetirada) => {
     const estoque = Number(estoqueAtual);
     const retirada = Number(quantidadeRetirada);
- 
+
     if (Number.isNaN(estoque) || Number.isNaN(retirada)) { // bloqueando valores inválidos
         return false;
     }
- 
+
     if (retirada <= 0) { // Bloqueia retirada de 0 itens ou negativo
         return false;
     }
- 
+
     if (estoque < 0) { // bloqueia estoque atual inválido
         return false;
     }
- 
+
     if (retirada > estoque) { // Bloqueia a retirada de mais itens do que se tem em estoque
         return false;
     }
- 
+
     return true;
+};
+
+// Exibir na mensagem itens retirados ou erros de retirada
+const exibirMensagemRetirada = (texto, tipoErro) => {
+    const mensagem = document.getElementById('mensagem-retirada');
+    mensagem.textContent = texto;
+    mensagem.style.color = tipoErro ? '#c0392b' : '#1a6faf';
+};
+
+// Confirma a baixa dos itens retirados e atualiza no MockAPI
+const confirmarBaixa = (event) => {
+    event.preventDefault();
+
+    const idSelecionado = document.getElementById('select-item-retirada').value;
+    const quantidadeRetirada = document.getElementById('input-retirada').value;
+    const responsavel = document.getElementById('input-responsavel-retirada').value;
+
+    if (!idSelecionado) {
+        exibirMensagemRetirada('Selecione um material para retirar.', true);
+        return;
+    }
+
+    if (!responsavel) {
+        exibirMensagemRetirada('Informe o responsável pela retirada.', true);
+        return;
+    }
+
+    // Busca o material correspondente no cache local para saber o estoque atual
+    const material = listaMateriaisCache.find(item => item.id === idSelecionado);
+
+    if (!material) {
+        exibirMensagemRetirada('Material não encontrado. Atualize a página.', true);
+        return;
+    }
+
+    const estoqueAtual = material.quantidade;
+
+    if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
+        exibirMensagemRetirada(
+            `Retirada inválida. Estoque atual: ${estoqueAtual}, tentativa: ${quantidadeRetirada}.`,
+            true
+        );
+        return;
+    }
+
+    const novoEstoque = estoqueAtual - Number(quantidadeRetirada);
+
+    const botao = document.getElementById('btn-confirmar-baixa');
+    botao.disabled = true;
+    botao.textContent = 'Processando...';
+
+    // atualiza o registro existente no MockAPI com o novo estoque
+    fetch(`${API_URL}/${idSelecionado}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+            ...material,
+            quantidade: novoEstoque
+        })
+    })
+        .then(res => res.json())
+        .then(() => {
+            exibirMensagemRetirada(
+                `Retirada confirmada por ${responsavel}. Novo estoque: ${novoEstoque}.`,
+                false
+            );
+            document.getElementById('input-retirada').value = '';
+            document.getElementById('input-responsavel-retirada').value = '';
+            buscarCadastros();
+        })
+        .catch(erro => {
+            console.error('Erro ao confirmar baixa:', erro);
+            exibirMensagemRetirada('Erro ao conectar com o servidor. Tente novamente.', true);
+        })
+        .finally(() => {
+            botao.disabled = false;
+            botao.textContent = 'Confirmar retirada';
+        });
 };
 
 // Chama o botão cadastrar e deixa os dados em exibição

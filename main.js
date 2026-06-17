@@ -1,6 +1,9 @@
 // URL base do seu projeto no MockAPI
 const API_URL = 'https://6a29decff59cb8f65f1dae28.mockapi.io/cadastro';
 
+// Cache para evitar carregar a lista novamente evitando uma nova requisição
+let listaMateriaisCache = [];
+
 // limpa campos do formulário
 const limparFormulario = () => {
     document.getElementById('input-nome').value = '';
@@ -59,7 +62,9 @@ const buscarCadastros = () => {
     })
     .then(res => res.json())
     .then(dados => {
+        listaMateriaisCache = dados;
         preencherTabela(dados);
+        preencherSelectRetirada(dados);
     })
     .catch(erro => console.error('Erro ao buscar:', erro));
 };

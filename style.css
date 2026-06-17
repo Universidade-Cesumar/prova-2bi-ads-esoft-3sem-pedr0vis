@@ -12,9 +12,12 @@ body {
 
 main {
 
-    margin: 0 auto;
-    width: 70%;
+    margin: 0;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
 }
 
@@ -59,4 +62,16 @@ main {
 
     width: 30%;
 
+}
+
+#lista-materiais {
+
+    border-collapse: collapse;
+
+}
+
+#lista-materiais th, td {
+
+    border: 1px solid black;
+    padding: 3px;
 }

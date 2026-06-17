@@ -125,6 +125,29 @@ const deletarCadastro = (id) => {
     .catch(erro => console.error('Erro ao deletar:', erro));
 };
 
+const validarRetirada = (estoqueAtual, quantidadeRetirada) => {
+    const estoque = Number(estoqueAtual);
+    const retirada = Number(quantidadeRetirada);
+ 
+    if (Number.isNaN(estoque) || Number.isNaN(retirada)) { // bloqueando valores inválidos
+        return false;
+    }
+ 
+    if (retirada <= 0) { // Bloqueia retirada de 0 itens ou negativo
+        return false;
+    }
+ 
+    if (estoque < 0) { // bloqueia estoque atual inválido
+        return false;
+    }
+ 
+    if (retirada > estoque) { // Bloqueia a retirada de mais itens do que se tem em estoque
+        return false;
+    }
+ 
+    return true;
+};
+
 // Chama o botão cadastrar e deixa os dados em exibição
 document.getElementById('btn-cadastrar').addEventListener('click', (event) => cadastrarApi(event));
 

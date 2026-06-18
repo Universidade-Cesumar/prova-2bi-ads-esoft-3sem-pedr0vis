@@ -25,11 +25,11 @@ main {
 }
 
 
- /* Formulário */
+/* Formulário */
 
 
 .formulario {
- 
+
     background-color: #ffffff;
     color: #1c2b3a;
     display: flex;
@@ -41,7 +41,7 @@ main {
     max-width: 480px;
     box-sizing: border-box;
     box-shadow: 0 1px 3px rgba(28, 43, 58, 0.08);
- 
+
 }
 
 .formulario div {
@@ -116,7 +116,7 @@ button:disabled {
 
 
 
- /* retirada */
+/* retirada */
 
 .retirada {
 
@@ -140,7 +140,7 @@ button:disabled {
 
     font-size: 1.5rem;
     font-weight: 700;
-    color:#0d3b5a;
+    color: #0d3b5a;
 
 }
 
@@ -157,11 +157,11 @@ button:disabled {
 
 
 .mensagem-retirada {
-    
+
     font-size: 1rem;
     font-weight: 600;
     color: #5a6b7a;
-    
+
 }
 
 
@@ -189,8 +189,31 @@ button:disabled {
 
 }
 
-#lista-materiais th, td {
+#lista-materiais th,
+td {
 
     border: 1px solid black;
     padding: 3px;
+}
+
+/* Responsividade celular */
+
+@media (max-width: 600px) {
+
+    .formulario,
+    .retirada {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding: 1.25rem;
+    }
+
+    .formulario h1 {
+        font-size: 1.05rem;
+    }
+
+    #lista-materiais th,
+    #lista-materiais td {
+        padding: 6px 8px;
+        font-size: 0.82rem;
+    }
 }

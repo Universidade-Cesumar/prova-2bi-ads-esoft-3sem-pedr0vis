@@ -24,6 +24,10 @@ main {
 
 }
 
+
+ /* Formulário */
+
+
 .formulario {
  
     background-color: #ffffff;
@@ -110,6 +114,10 @@ button:disabled {
 
 }
 
+
+
+ /* retirada */
+
 .retirada {
 
     background-color: #ffffff;
@@ -128,11 +136,56 @@ button:disabled {
 
 }
 
+.retirada h2 {
 
+    font-size: 1.5rem;
+    font-weight: 700;
+    color:#0d3b5a;
+
+}
+
+.retirada div {
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+
+}
+
+
+
+
+.mensagem-retirada {
+    
+    font-size: 1rem;
+    font-weight: 600;
+    color: #5a6b7a;
+    
+}
+
+
+
+/* tabela */
+
+.tabela {
+
+    width: 100%;
+    max-width: 700px;
+    overflow-x: auto;
+    box-sizing: border-box;
+    padding: 0 1rem;
+
+}
 
 #lista-materiais {
 
     border-collapse: collapse;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.9rem;
 
 }
 

@@ -231,4 +231,7 @@ const confirmarBaixa = (event) => {
 document.getElementById('btn-cadastrar').addEventListener('click', (event) => cadastrarApi(event));
 document.getElementById('btn-confirmar-baixa').addEventListener('click', (event) => confirmarBaixa(event));
  
-buscarCadastros();
+// condição para evitar erros devido ao fetch não ser suportado em alguns navegadores ou ambientes
+if (typeof fetch === 'function') {
+    buscarCadastros();
+}

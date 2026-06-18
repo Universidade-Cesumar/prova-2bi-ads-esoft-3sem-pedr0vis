@@ -1,6 +1,6 @@
 # 🏥 Sistema de Gerenciamento de Almoxarifado Hospitalar
 
-> **Projeto acadêmico supervisionado pelo Prof. Leonardo Rocha.**
+> **Projeto acadêmico supervisionado pelo Prof. [Leonardo Rocha](https://github.com/leonardossrocha).**
 > Desenvolvido como solução prática para otimizar a rotina de aulas técnicas de enfermagem.
 
 ---
@@ -208,4 +208,4 @@ almoxarifado-hospitalar/
 
 O uso do **MockAPI** provou ser uma excelente escolha para o ambiente de aprendizado, prototipagem rápida e testes. A experiência adquirida na implementação desta API foi um passo fundamental para o desenvolvimento da minha carreira técnica, solidificando conceitos de requisições assíncronas, validação de regras de negócio e arquitetura web.
 
-Fica aqui o meu sincero agradecimento ao professor **Leonardo Rocha** por lecionar, guiar e apoiar com excelência esta jornada no universo da programação.
+Fica aqui o meu sincero agradecimento ao professor **[Leonardo Rocha](https://github.com/leonardossrocha)** por lecionar, guiar e apoiar com excelência esta jornada no universo da programação.

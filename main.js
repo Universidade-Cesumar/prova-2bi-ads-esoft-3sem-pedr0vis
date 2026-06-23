@@ -187,33 +187,33 @@ const exibirMensagemRetirada = (texto, tipoErro) => {
 };
 
 // Confirma a baixa dos itens retirados e atualiza no MockAPI
-const confirmarBaixa = (event) => {
+const confirmarBaixa = async (event) => {
     event.preventDefault();
-
+ 
     const idSelecionado = document.getElementById('select-item-retirada').value;
     const quantidadeRetirada = document.getElementById('input-retirada').value;
     const responsavel = document.getElementById('input-responsavel-retirada').value;
-
+ 
     if (!idSelecionado) {
         exibirMensagemRetirada('Selecione um material para retirar.', true);
         return;
     }
-
+ 
     if (!responsavel) {
         exibirMensagemRetirada('Informe o responsável pela retirada.', true);
         return;
     }
-
+ 
     // Busca o material correspondente no cache local para saber o estoque atual
     const material = listaMateriaisCache.find(item => item.id === idSelecionado);
-
+ 
     if (!material) {
         exibirMensagemRetirada('Material não encontrado. Atualize a página.', true);
         return;
     }
-
+ 
     const estoqueAtual = material.quantidade;
-
+ 
     if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
         exibirMensagemRetirada(
             `Retirada inválida. Estoque atual: ${estoqueAtual}, tentativa: ${quantidadeRetirada}.`,
@@ -221,40 +221,41 @@ const confirmarBaixa = (event) => {
         );
         return;
     }
-
+ 
     const novoEstoque = estoqueAtual - Number(quantidadeRetirada);
-
+ 
     const botao = document.getElementById('btn-confirmar-baixa');
     botao.disabled = true;
     botao.textContent = 'Processando...';
-
-    // atualiza o registro existente no MockAPI com o novo estoque
-    fetch(`${API_URL}/${idSelecionado}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-            ...material,
-            quantidade: novoEstoque
-        })
-    })
-        .then(res => res.json())
-        .then(() => {
-            exibirMensagemRetirada(
-                `Retirada confirmada por ${responsavel}. Novo estoque: ${novoEstoque}.`,
-                false
-            );
-            document.getElementById('input-retirada').value = '';
-            document.getElementById('input-responsavel-retirada').value = '';
-            buscarCadastros();
-        })
-        .catch(erro => {
-            console.error('Erro ao confirmar baixa:', erro);
-            exibirMensagemRetirada('Erro ao conectar com o servidor. Tente novamente.', true);
-        })
-        .finally(() => {
-            botao.disabled = false;
-            botao.textContent = 'Confirmar retirada';
+ 
+    try {
+        const res = await fetch(`${API_URL}/${idSelecionado}`, {
+            method: 'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+                ...material,
+                quantidade: novoEstoque
+            })
         });
+ 
+        if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
+ 
+        await res.json();
+        exibirMensagemRetirada(
+            `Retirada confirmada por ${responsavel}. Novo estoque: ${novoEstoque}.`,
+            false
+        );
+        document.getElementById('input-retirada').value = '';
+        document.getElementById('input-responsavel-retirada').value = '';
+        buscarCadastros();
+ 
+    } catch (erro) {
+        console.error('Erro ao confirmar baixa:', erro);
+        exibirMensagemRetirada('Erro ao conectar com o servidor. Tente novamente.', true);
+    } finally {
+        botao.disabled = false;
+        botao.textContent = 'Confirmar retirada';
+    }
 };
 
 // Chama o botão cadastrar e deixa os dados em exibição

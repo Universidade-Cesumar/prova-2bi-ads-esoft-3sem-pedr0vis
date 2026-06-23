@@ -90,47 +90,51 @@ const buscarCadastros = async () => {
 };
 
 // Envia para a API usando o POST
-const cadastrarApi = (event) => {
+const cadastrarApi = async (event) => {
     event.preventDefault();
-
+ 
     const nome = document.getElementById('input-nome').value;
     const quantidade = document.getElementById('input-quantidade').value;
     const categoria = document.getElementById('select-categoria').value;
     const dataCadastro = document.getElementById('input-data-cadastro').value;
-
+ 
     if (!nome || !quantidade || !dataCadastro) {
         alert('Preencha todos os campos antes de cadastrar.');
         return;
     }
-
+ 
     const botao = document.getElementById('btn-cadastrar');
     botao.disabled = true;
     botao.textContent = 'Cadastrando...';
-
+ 
     const novoCadastro = {
         nomeMaterial: nome,
         quantidade: Number(quantidade),
         categoria: categoria, // '1' = consumo, '2' = permanente
         dataCadastro: dataCadastro
     };
-
-    fetch(API_URL, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(novoCadastro)
-    })
-        .then(res => res.json())
-        .then(cadastroCriado => {
-            console.log('Cadastrado com sucesso:', cadastroCriado);
-            limparFormulario();
-            buscarCadastros();
-        })
-        .catch(erro => console.error('Erro ao cadastrar:', erro))
-        .finally(() => {
-            botao.disabled = false;
-            botao.textContent = 'Cadastrar';
+ 
+    try {
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(novoCadastro)
         });
-
+ 
+        if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
+ 
+        const cadastroCriado = await res.json();
+        console.log('Cadastrado com sucesso:', cadastroCriado);
+        limparFormulario();
+        buscarCadastros();
+ 
+    } catch (erro) {
+        console.error('Erro ao cadastrar:', erro);
+        alert('Não foi possível cadastrar o material. Verifique sua conexão e tente novamente.');
+    } finally {
+        botao.disabled = false;
+        botao.textContent = 'Cadastrar';
+    }
 };
 
 // Remover cadastro de item

@@ -138,15 +138,21 @@ const cadastrarApi = async (event) => {
 };
 
 // Remover cadastro de item
-const deletarCadastro = (id) => {
-    fetch(`${API_URL}/${id}`, {
-        method: 'DELETE'
-    })
-        .then(res => res.json())
-        .then(() => {
-            buscarCadastros();
-        })
-        .catch(erro => console.error('Erro ao deletar:', erro));
+const deletarCadastro = async (id) => {
+    try {
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: 'DELETE'
+        });
+ 
+        if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
+ 
+        await res.json();
+        buscarCadastros();
+ 
+    } catch (erro) {
+        console.error('Erro ao deletar:', erro);
+        alert('Não foi possível excluir o material. Verifique sua conexão e tente novamente.');
+    }
 };
 
 // Validações de retirada de itens do estoque

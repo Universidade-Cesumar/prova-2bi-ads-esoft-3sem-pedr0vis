@@ -206,6 +206,38 @@ td {
     padding: 3px;
 }
 
+#lista-materiais th {
+
+    background-color: #0f4c7a;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+
+}
+
+#lista-materiais td {
+
+    background-color: #ffffff;
+    color: #1c2b3a;
+
+}
+
+.btn-excluir {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-excluir:hover {
+    background-color: #c0392b;
+    color: #ffffff;
+}
+
 /* Responsividade celular */
 
 @media (max-width: 600px) {

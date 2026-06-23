@@ -38,6 +38,9 @@ const preencherTabela = (listaDeCadastros) => {
             </tr>
         `).join('')}
     `;
+
+    document.getElementById('total-itens').textContent = listaDeCadastros.length;
+
 };
 
 // Preencher select da seção de retirada com materiais já cadastrados
@@ -52,6 +55,17 @@ const preencherSelectRetirada = (listaDeCadastros) => {
     select.innerHTML = listaDeCadastros.map(item => `
         <option value="${item.id}">${item.nomeMaterial} (estoque: ${item.quantidade})</option>
     `).join('');
+};
+
+// Filtra a lista pelo termo digitado no input de busca
+const filtrarMateriais = () => {
+    const termo = document.getElementById('input-busca').value.toLowerCase().trim();
+ 
+    const listaFiltrada = listaMateriaisCache.filter(item =>
+        item.nomeMaterial.toLowerCase().includes(termo)
+    );
+ 
+    preencherTabela(listaFiltrada);
 };
 
 // Busca cadastros e chama o preencher tabela

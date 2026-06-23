@@ -69,18 +69,24 @@ const filtrarMateriais = () => {
 };
 
 // Busca cadastros e chama o preencher tabela
-const buscarCadastros = () => {
-    fetch(API_URL, {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' }
-    })
-        .then(res => res.json())
-        .then(dados => {
-            listaMateriaisCache = dados;
-            preencherTabela(dados);
-            preencherSelectRetirada(dados);
-        })
-        .catch(erro => console.error('Erro ao buscar:', erro));
+const buscarCadastros = async () => {
+    try {
+        const res = await fetch(API_URL, {
+            method: 'GET',
+            headers: { 'content-type': 'application/json' }
+        });
+ 
+        if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
+ 
+        const dados = await res.json();
+        listaMateriaisCache = dados;
+        preencherTabela(dados);
+        preencherSelectRetirada(dados);
+ 
+    } catch (erro) {
+        console.error('Erro ao buscar cadastros:', erro);
+        alert('Não foi possível carregar os materiais. Verifique sua conexão e tente novamente.');
+    }
 };
 
 // Envia para a API usando o POST
@@ -244,6 +250,9 @@ const confirmarBaixa = (event) => {
 // Chama o botão cadastrar e deixa os dados em exibição
 document.getElementById('btn-cadastrar').addEventListener('click', (event) => cadastrarApi(event));
 document.getElementById('btn-confirmar-baixa').addEventListener('click', (event) => confirmarBaixa(event));
+
+// filtra em tempo real os materiais cadastrados
+document.getElementById('input-busca').addEventListener('input', filtrarMateriais);
  
 // condição para evitar erros devido ao fetch não ser suportado em alguns navegadores ou ambientes
 if (typeof fetch === 'function') {

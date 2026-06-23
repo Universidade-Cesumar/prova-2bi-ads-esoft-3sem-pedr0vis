@@ -174,7 +174,43 @@ button:disabled {
 
 }
 
+/* barra de pesquisa e contador */
 
+.tabela-controles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+#input-busca {
+    flex: 1;
+    min-width: 160px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+ 
+#input-busca:focus {
+    border-color: #0f4c7a;
+}
+ 
+.total-itens-label {
+    font-size: 0.9rem;
+    color: #5a6b7a;
+    white-space: nowrap;
+}
+ 
+#total-itens {
+    color: #0f4c7a;
+}
 
 /* tabela */
 
@@ -243,15 +279,22 @@ td {
 @media (max-width: 600px) {
 
     header h1 {
-        font-size: 1.4rem;
+        font-size: 1.05rem;
     }
 
     .formulario,
     .retirada {
-        width: 70%;
         margin-left: 1rem;
         margin-right: 1rem;
         padding: 1.25rem;
+    }
+
+    .inputFormulario,
+    .selectFormulario,
+    .btnCadastrar,
+    #btn-cadastrar,
+    .btn-baixar {
+        width: 100%;
     }
 
     #lista-materiais th,

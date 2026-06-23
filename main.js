@@ -26,7 +26,7 @@ const preencherTabela = (listaDeCadastros) => {
             <th>Ações</th>
         </tr>
         ${listaDeCadastros.map(item => `
-            <tr>
+            <tr class="${item.quantidade < 10 ? 'estoque-critico' : ''}">
                 <td>${item.id}</td>
                 <td>${item.nomeMaterial}</td>
                 <td>${item.quantidade}</td>
@@ -60,11 +60,11 @@ const preencherSelectRetirada = (listaDeCadastros) => {
 // Filtra a lista pelo termo digitado no input de busca
 const filtrarMateriais = () => {
     const termo = document.getElementById('input-busca').value.toLowerCase().trim();
- 
+
     const listaFiltrada = listaMateriaisCache.filter(item =>
         item.nomeMaterial.toLowerCase().includes(termo)
     );
- 
+
     preencherTabela(listaFiltrada);
 };
 
@@ -75,14 +75,14 @@ const buscarCadastros = async () => {
             method: 'GET',
             headers: { 'content-type': 'application/json' }
         });
- 
+
         if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
- 
+
         const dados = await res.json();
         listaMateriaisCache = dados;
         preencherTabela(dados);
         preencherSelectRetirada(dados);
- 
+
     } catch (erro) {
         console.error('Erro ao buscar cadastros:', erro);
         alert('Não foi possível carregar os materiais. Verifique sua conexão e tente novamente.');
@@ -92,42 +92,43 @@ const buscarCadastros = async () => {
 // Envia para a API usando o POST
 const cadastrarApi = async (event) => {
     event.preventDefault();
- 
+
     const nome = document.getElementById('input-nome').value;
     const quantidade = document.getElementById('input-quantidade').value;
     const categoria = document.getElementById('select-categoria').value;
     const dataCadastro = document.getElementById('input-data-cadastro').value;
- 
+
     if (!nome || !quantidade || !dataCadastro) {
         alert('Preencha todos os campos antes de cadastrar.');
         return;
     }
- 
+
     const botao = document.getElementById('btn-cadastrar');
     botao.disabled = true;
     botao.textContent = 'Cadastrando...';
- 
+
     const novoCadastro = {
         nomeMaterial: nome,
         quantidade: Number(quantidade),
         categoria: categoria, // '1' = consumo, '2' = permanente
         dataCadastro: dataCadastro
     };
- 
+
+    // Try chamando o cadastro com sucesso e usando funções de limpar formulário e buscar cadastros atualizados
     try {
         const res = await fetch(API_URL, {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(novoCadastro)
         });
- 
+
         if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
- 
+
         const cadastroCriado = await res.json();
         console.log('Cadastrado com sucesso:', cadastroCriado);
         limparFormulario();
         buscarCadastros();
- 
+
     } catch (erro) {
         console.error('Erro ao cadastrar:', erro);
         alert('Não foi possível cadastrar o material. Verifique sua conexão e tente novamente.');
@@ -143,12 +144,12 @@ const deletarCadastro = async (id) => {
         const res = await fetch(`${API_URL}/${id}`, {
             method: 'DELETE'
         });
- 
+
         if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
- 
+
         await res.json();
         buscarCadastros();
- 
+
     } catch (erro) {
         console.error('Erro ao deletar:', erro);
         alert('Não foi possível excluir o material. Verifique sua conexão e tente novamente.');
@@ -189,31 +190,31 @@ const exibirMensagemRetirada = (texto, tipoErro) => {
 // Confirma a baixa dos itens retirados e atualiza no MockAPI
 const confirmarBaixa = async (event) => {
     event.preventDefault();
- 
+
     const idSelecionado = document.getElementById('select-item-retirada').value;
     const quantidadeRetirada = document.getElementById('input-retirada').value;
     const responsavel = document.getElementById('input-responsavel-retirada').value;
- 
+
     if (!idSelecionado) {
         exibirMensagemRetirada('Selecione um material para retirar.', true);
         return;
     }
- 
+
     if (!responsavel) {
         exibirMensagemRetirada('Informe o responsável pela retirada.', true);
         return;
     }
- 
+
     // Busca o material correspondente no cache local para saber o estoque atual
     const material = listaMateriaisCache.find(item => item.id === idSelecionado);
- 
+
     if (!material) {
         exibirMensagemRetirada('Material não encontrado. Atualize a página.', true);
         return;
     }
- 
+
     const estoqueAtual = material.quantidade;
- 
+
     if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
         exibirMensagemRetirada(
             `Retirada inválida. Estoque atual: ${estoqueAtual}, tentativa: ${quantidadeRetirada}.`,
@@ -221,13 +222,14 @@ const confirmarBaixa = async (event) => {
         );
         return;
     }
- 
+
     const novoEstoque = estoqueAtual - Number(quantidadeRetirada);
- 
+
     const botao = document.getElementById('btn-confirmar-baixa');
     botao.disabled = true;
     botao.textContent = 'Processando...';
- 
+
+    // Atualizando o estoque do material no MockAPI e informando o responsável pela retirada
     try {
         const res = await fetch(`${API_URL}/${idSelecionado}`, {
             method: 'PUT',
@@ -237,9 +239,9 @@ const confirmarBaixa = async (event) => {
                 quantidade: novoEstoque
             })
         });
- 
+
         if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
- 
+
         await res.json();
         exibirMensagemRetirada(
             `Retirada confirmada por ${responsavel}. Novo estoque: ${novoEstoque}.`,
@@ -248,7 +250,7 @@ const confirmarBaixa = async (event) => {
         document.getElementById('input-retirada').value = '';
         document.getElementById('input-responsavel-retirada').value = '';
         buscarCadastros();
- 
+
     } catch (erro) {
         console.error('Erro ao confirmar baixa:', erro);
         exibirMensagemRetirada('Erro ao conectar com o servidor. Tente novamente.', true);
@@ -264,7 +266,7 @@ document.getElementById('btn-confirmar-baixa').addEventListener('click', (event)
 
 // filtra em tempo real os materiais cadastrados
 document.getElementById('input-busca').addEventListener('input', filtrarMateriais);
- 
+
 // condição para evitar erros devido ao fetch não ser suportado em alguns navegadores ou ambientes
 if (typeof fetch === 'function') {
     buscarCadastros();

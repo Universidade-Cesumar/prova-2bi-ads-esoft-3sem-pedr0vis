@@ -64,13 +64,14 @@ header h1 {
 
 }
 
-/* Formulário */
 
+
+/* Formulário */
 
 .formulario {
 
-    background-color: #ffffff;
-    color: #1c2b3a;
+    background-color: var(--branco);
+    color: var(--texto-escuro);
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
@@ -87,24 +88,34 @@ header h1 {
 
     font-size: 1.5rem;
     font-weight: 700;
-    color: #0d3b5a;
+    color: var(--azul-escuro);
+    margin: 0 0 1rem;
 
 }
 
 .formulario div {
+
     display: flex;
     flex-direction: column;
     gap: 6px;
     margin-bottom: 18px;
+
 }
+
+
+/* Labels do formulário */
 
 .labelFormulario {
 
     font-size: 1rem;
     font-weight: 600;
-    color: #5a6b7a;
+    color: var(--texto-medio);
 
 }
+
+
+
+/* Campos input e select do formulário */
 
 .formulario input,
 .formulario select,
@@ -112,11 +123,22 @@ header h1 {
 .retirada select {
 
     padding: 0.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cinza-borda);
     border-radius: 4px;
     font-size: 1rem;
     width: 100%;
     box-sizing: border-box;
+    transition: border-color 0.2s ease;
+
+}
+
+.formulario input:focus,
+.formulario select:focus,
+.retirada input:focus,
+.retirada select:focus {
+
+    outline: none;
+    border-color: var(--azul-principal);
 
 }
 
@@ -126,10 +148,14 @@ select {
 
 }
 
+
+
+/* Botões */
+
 button {
 
-    background-color: #0f4c7a;
-    color: #ffffff;
+    background-color: var(--azul-principal);
+    color: var(--branco);
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 4px;
@@ -141,13 +167,13 @@ button {
 
 button:hover {
 
-    background-color: #0d3b5a;
+    background-color: var(--azul-escuro);
 
 }
 
 button:disabled {
 
-    background-color: #ccc;
+    background-color: var(--cinza-borda);
     cursor: not-allowed;
 
 }

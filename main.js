@@ -107,6 +107,7 @@ const cadastrarApi = async (event) => {
     const quantidade = document.getElementById('input-quantidade').value;
     const categoria = document.getElementById('select-categoria').value;
     const dataCadastro = document.getElementById('input-data-cadastro').value;
+    const dataValidade = document.getElementById('input-data-validade').value;
 
     if (!nome || !quantidade || !dataCadastro) {
         alert('Preencha todos os campos antes de cadastrar.');
@@ -121,7 +122,8 @@ const cadastrarApi = async (event) => {
         nomeMaterial: nome,
         quantidade: Number(quantidade),
         categoria: categoria, // '1' = consumo, '2' = permanente
-        dataCadastro: dataCadastro
+        dataCadastro: dataCadastro,
+        dataValidade: dataValidade || null
     };
 
     // Try chamando o cadastro com sucesso e usando funções de limpar formulário e buscar cadastros atualizados
@@ -220,6 +222,33 @@ const exibirMensagemRetirada = (texto, tipoErro) => {
     const mensagem = document.getElementById('mensagem-retirada');
     mensagem.textContent = texto;
     mensagem.style.color = tipoErro ? '#c0392b' : '#1a6faf';
+};
+
+// Registrar movimentação de materiais
+const registrarMovimentacao = async (material, quantidadeRetirada, novoEstoque, responsavel) => {
+    const movimentacao = {
+        responsavel: responsavel,
+        nomeMaterial: material.nomeMaterial,
+        dataRetirada: new Date().toLocaleDateString('pt-BR'),
+        quantidadeRetirada: Number(quantidadeRetirada),
+        estoqueAposRetirada: novoEstoque
+    };
+ 
+    try {
+        const res = await fetch(API_MOVIMENTACOES, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(movimentacao)
+        });
+ 
+        if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
+ 
+        const registro = await res.json();
+        console.log('Movimentação registrada:', registro);
+ 
+    } catch (erro) {
+        console.error('Erro ao registrar movimentação:', erro);
+    }
 };
 
 // Confirma a baixa dos itens retirados e atualiza no MockAPI

@@ -1,5 +1,24 @@
 /* Caso queira utilizar framework como Bootstrap para estilização, pode utilizar. Basta ignorar esse arquivo */
 
+/*  Váriaveis globais */
+
+:root {
+
+    --azul-principal:  #0f4c7a;
+    --azul-escuro:     #0d3b5a;
+    --texto-escuro:    #1c2b3a;
+    --texto-medio:     #5a6b7a;
+    --cinza-fundo:     #f5f7fa;
+    --cinza-borda:     #ccc;
+    --branco:          #ffffff;
+    --vermelho:        #e74c3c;
+    --vermelho-escuro: #c0392b;
+
+}
+
+
+/* Corpo */
+
 body {
 
     font-family: 'Segoe UI', Arial, sans-serif;

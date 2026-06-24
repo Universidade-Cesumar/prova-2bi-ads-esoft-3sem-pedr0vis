@@ -19,22 +19,27 @@ const limparFormulario = () => {
 // Mostra a tabela e recebe um array com objetos da api
 const preencherTabela = (listaDeCadastros) => {
     const tabela = document.getElementById('lista-materiais');
-
+ 
     tabela.innerHTML = `
         <tr>
             <th>ID</th>
             <th>Nome do Material</th>
             <th>Quantidade</th>
+            <th>Status</th>
             <th>Categoria</th>
             <th>Data de Cadastro</th>
             <th>Data de Validade</th>
             <th>Ações</th>
         </tr>
-        ${listaDeCadastros.map(item => {`
-            <tr class="${item.quantidade < 10 ? 'estoque-critico' : ''}">
+        ${listaDeCadastros.map(item => {
+            const estoque = verificarEstoque(item.quantidade);
+            const validade = verificarValidade(item.dataValidade);
+            return `
+            <tr class="${estoque.classe} ${validade.background}">
                 <td>${item.id}</td>
                 <td>${item.nomeMaterial}</td>
                 <td>${item.quantidade}</td>
+                <td>${estoque.status}</td>
                 <td>${item.categoria === '1' ? 'Material de consumo' : 'Material permanente'}</td>
                 <td>${item.dataCadastro}</td>
                 <td>${item.dataValidade || '—'}</td>
@@ -44,9 +49,8 @@ const preencherTabela = (listaDeCadastros) => {
             </tr>
         `}).join('')}
     `;
-
+ 
     document.getElementById('total-itens').textContent = listaDeCadastros.length;
-
 };
 
 // Preencher select da seção de retirada com materiais já cadastrados
@@ -202,6 +206,13 @@ const verificarValidade = (dataValidade) => {
     if (diffDias < 0) return { background: 'validade-vencida' };
     if (diffDias <= 15) return { background: 'validade-proxima' };
     return { background: '' };
+};
+
+// Verificar o estoque disponível
+const verificarEstoque = (quantidade) => {
+    if (quantidade === 0) return { classe: 'estoque-critico', status: '🔴 Estoque zerado' };
+    if (quantidade <= 10) return { classe: 'estoque-critico estoque-alerta', status: '🟡 Alerta' };
+    return { classe: '', status: '🟢 Disponível' };
 };
 
 // Exibir na mensagem itens retirados ou erros de retirada

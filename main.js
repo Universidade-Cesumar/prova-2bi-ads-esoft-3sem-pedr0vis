@@ -307,6 +307,9 @@ const confirmarBaixa = async (event) => {
         if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
 
         await res.json();
+
+        await registrarMovimentacao(material, quantidadeRetirada, novoEstoque, responsavel);
+
         exibirMensagemRetirada(
             `Retirada confirmada por ${responsavel}. Novo estoque: ${novoEstoque}.`,
             false

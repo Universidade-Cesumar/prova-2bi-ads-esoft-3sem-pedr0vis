@@ -27,20 +27,22 @@ const preencherTabela = (listaDeCadastros) => {
             <th>Quantidade</th>
             <th>Categoria</th>
             <th>Data de Cadastro</th>
+            <th>Data de Validade</th>
             <th>Ações</th>
         </tr>
-        ${listaDeCadastros.map(item => `
+        ${listaDeCadastros.map(item => {`
             <tr class="${item.quantidade < 10 ? 'estoque-critico' : ''}">
                 <td>${item.id}</td>
                 <td>${item.nomeMaterial}</td>
                 <td>${item.quantidade}</td>
                 <td>${item.categoria === '1' ? 'Material de consumo' : 'Material permanente'}</td>
                 <td>${item.dataCadastro}</td>
+                <td>${item.dataValidade || '—'}</td>
                 <td>
                     <button class="btn-excluir" onclick="deletarCadastro('${item.id}')">Excluir</button>
                 </td>
             </tr>
-        `).join('')}
+        `}).join('')}
     `;
 
     document.getElementById('total-itens').textContent = listaDeCadastros.length;
@@ -182,6 +184,24 @@ const validarRetirada = (estoqueAtual, quantidadeRetirada) => {
     }
 
     return true;
+};
+
+// Verificar a validade do material
+const verificarValidade = (dataValidade) => {
+    if (!dataValidade) return { classe: '', background: '' };
+ 
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+ 
+    const validade = new Date(dataValidade);
+    validade.setHours(0, 0, 0, 0);
+ 
+    const diffMs = validade - hoje;
+    const diffDias = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+ 
+    if (diffDias < 0) return { background: 'validade-vencida' };
+    if (diffDias <= 15) return { background: 'validade-proxima' };
+    return { background: '' };
 };
 
 // Exibir na mensagem itens retirados ou erros de retirada

@@ -163,9 +163,6 @@ button:disabled {
 
 }
 
-
-
-
 .mensagem-retirada {
 
     font-size: 1rem;
@@ -256,6 +253,14 @@ td {
     background-color: #ffffff;
     color: #1c2b3a;
 
+}
+
+.validade-proxima td {
+    background-color: #fff8e1 !important;
+}
+
+.validade-vencida td {
+    background-color: #fdecea !important;
 }
 
 .btn-excluir {

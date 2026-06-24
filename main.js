@@ -22,7 +22,6 @@ const preencherTabela = (listaDeCadastros) => {
  
     tabela.innerHTML = `
         <tr>
-            <th>ID</th>
             <th>Nome do Material</th>
             <th>Quantidade</th>
             <th>Status</th>
@@ -36,7 +35,6 @@ const preencherTabela = (listaDeCadastros) => {
             const validade = verificarValidade(item.dataValidade);
             return `
             <tr class="${estoque.classe} ${validade.background}">
-                <td>${item.id}</td>
                 <td>${item.nomeMaterial}</td>
                 <td>${item.quantidade}</td>
                 <td>${estoque.status}</td>

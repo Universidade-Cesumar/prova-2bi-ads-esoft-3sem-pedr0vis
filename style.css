@@ -45,13 +45,22 @@ main {
 
 /* Header */
 
+header {
+
+    width: 100%;
+    max-width: 960px;
+    text-align: center;
+    padding: 1.5rem 0 0.5rem;
+
+}
+
 header h1 {
 
     font-size: 1.8rem;
     font-weight: 700;
     line-height: 1.4;
-    text-align: center;
-    color: #0f4c7a;
+    color: var(--azul-principal);
+    margin: 0;
 
 }
 

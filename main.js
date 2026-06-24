@@ -1,6 +1,9 @@
 // URL base do seu projeto no MockAPI
 const API_URL = 'https://6a29decff59cb8f65f1dae28.mockapi.io/cadastro';
 
+// Resource de movimentações para registrar histórico de retiradas
+const API_MOVIMENTACOES = 'https://6a29decff59cb8f65f1dae28.mockapi.io/movimentacoes';
+
 // Cache para evitar carregar a lista novamente evitando uma nova requisição
 let listaMateriaisCache = [];
 
@@ -10,6 +13,7 @@ const limparFormulario = () => {
     document.getElementById('input-quantidade').value = '';
     document.getElementById('select-categoria').value = '1';
     document.getElementById('input-data-cadastro').value = '';
+    document.getElementById('input-data-validade').value = '';
 };
 
 // Mostra a tabela e recebe um array com objetos da api

@@ -2,6 +2,7 @@
 
 > **Projeto acadêmico supervisionado pelo Prof. [Leonardo Rocha](https://github.com/leonardossrocha).**
 > Desenvolvido como solução prática para otimizar a rotina de aulas técnicas de enfermagem.
+> [Acesse o projeto clicando aqui!](https://almoxarifado-hospitalar.vercel.app/)
 
 ---
 
